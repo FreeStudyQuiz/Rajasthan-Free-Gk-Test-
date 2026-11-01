@@ -1,1 +1,109 @@
 
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>राजस्थान भूगोल MCQ टेस्ट</title>
+<style>
+  body{font-family:Arial,"Noto Sans Devanagari",sans-serif;background:#f3f6fb;color:#172033;margin:0;padding:16px}
+  .wrap{max-width:760px;margin:auto}
+  header,.card{background:white;border-radius:16px;padding:18px;margin:0 0 14px;box-shadow:0 3px 12px #17203312}
+  h1{font-size:1.45rem;margin:0 0 8px} .sub{color:#526078;line-height:1.5}
+  #score{font-weight:bold;font-size:1.1rem;color:#234}
+  .qtitle{font-weight:bold;line-height:1.6;margin-bottom:12px}
+  .option{display:block;width:100%;text-align:left;padding:12px 14px;margin:8px 0;border:2px solid #d7deea;border-radius:10px;background:#fff;color:#172033;font-size:1rem;cursor:pointer}
+  .option:focus{outline:3px solid #b6d4fe}
+  .option.correct{background:#d8f5df;border-color:#198754;color:#14532d}
+  .option.wrong{background:#ffe0e0;border-color:#dc3545;color:#842029}
+  .option:disabled{cursor:default;opacity:1}
+  .feedback{min-height:24px;font-weight:bold;margin-top:8px}
+  .right{color:#198754}.wrongtext{color:#dc3545}
+  .controls{display:flex;gap:10px;flex-wrap:wrap}
+  .mainbtn{border:0;border-radius:10px;padding:12px 16px;background:#2457c5;color:white;font-size:1rem;cursor:pointer}
+  .mainbtn.secondary{background:#e4eaf5;color:#172033}
+  #result{font-weight:bold;font-size:1.15rem;line-height:1.7}
+  .legend{font-size:.92rem;color:#526078}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>📚 राजस्थान भूगोल — इंटरैक्टिव MCQ टेस्ट</h1>
+  <div class="sub">चंबल नदी, बाँध और सहायक नदियाँ • 25 प्रश्न • हर प्रश्न 1 अंक</div>
+  <p id="score">स्कोर: 0 / 25</p>
+  <div class="legend">किसी विकल्प पर क्लिक करें: सही उत्तर 🟢 हरा, गलत उत्तर 🔴 लाल दिखेगा। हर प्रश्न का जवाब देने के बाद अगला प्रश्न खुलेगा।</div>
+</header>
+<div id="quiz"></div>
+<div class="card" id="end" hidden>
+  <div id="result"></div>
+  <p>फिर से अभ्यास करने के लिए टेस्ट रीसेट करें।</p>
+  <button class="mainbtn" onclick="resetQuiz()">टेस्ट दोबारा शुरू करें</button>
+</div>
+</div>
+<script>
+const questions = [
+{q:"चंबल नदी का उद्गम कहाँ से होता है?",o:["अरावली पर्वतमाला","जनापाव पहाड़ी","विंध्याचल पर्वत","मुकुंदरा की पहाड़ियाँ"],a:1},
+{q:"चंबल नदी किस नदी की सहायक नदी है?",o:["गंगा","नर्मदा","यमुना","माही"],a:2},
+{q:"चंबल नदी राजस्थान में किस जिले के पास प्रवेश करती है?",o:["कोटा","झालावाड़","धौलपुर","बारां"],a:1},
+{q:"किताब में चंबल नदी पर कितने प्रमुख बाँध बताए गए हैं?",o:["2","3","4","5"],a:2},
+{q:"चंबल परियोजना की शुरुआत कब हुई थी?",o:["1947–48","1953–54","1960–61","1970–71"],a:1},
+{q:"गांधी सागर बाँध किस वर्ष बनाया गया था?",o:["1959","1965","1970","1972"],a:0},
+{q:"गांधी सागर बाँध किस राज्य में स्थित है?",o:["राजस्थान","मध्य प्रदेश","उत्तर प्रदेश","गुजरात"],a:1},
+{q:"राणा प्रताप सागर बाँध किस स्थान के पास स्थित है?",o:["रावतभाटा","रामपुरा","झालावाड़","सवाई माधोपुर"],a:0},
+{q:"राणा प्रताप सागर बाँध का निर्माण किस वर्ष हुआ था?",o:["1959","1960","1970","1975"],a:2},
+{q:"जवाहर सागर बाँध किस वर्ष बनाया गया था?",o:["1953","1960","1972","1980"],a:2},
+{q:"कोटा बैराज का उद्घाटन किसने किया था?",o:["महात्मा गांधी","जवाहरलाल नेहरू","इंदिरा गांधी","लाल बहादुर शास्त्री"],a:1},
+{q:"कोटा बैराज का उद्घाटन किस वर्ष हुआ था?",o:["1953","1960","1965","1972"],a:1},
+{q:"कालीसिंध नदी का उद्गम किस राज्य में होता है?",o:["राजस्थान","मध्य प्रदेश","गुजरात","उत्तर प्रदेश"],a:1},
+{q:"पार्वती नदी का उद्गम किस पर्वत क्षेत्र में बताया गया है?",o:["अरावली","हिमालय","विंध्याचल","सतपुड़ा"],a:2},
+{q:"कालीसिंध नदी राजस्थान में किस जिले के पास प्रवेश करती है?",o:["झालावाड़","जैसलमेर","बीकानेर","सीकर"],a:0},
+{q:"मेज नदी का उद्गम कहाँ से होता है?",o:["बिजोलिया","जनापाव","माउंट आबू","पुष्कर"],a:0},
+{q:"कुराल नदी का उद्गम किस क्षेत्र से होता है?",o:["अरावली की पहाड़ियों से","उपरमाल के पठार से","थार मरुस्थल से","मुकुंदरा की पहाड़ियों से"],a:1},
+{q:"चाकण नदी का उद्गम किससे बताया गया है?",o:["छोटी-छोटी नदियों और नालों से","हिमालय के हिमनदों से","समुद्र से","अरावली की मुख्य चोटी से"],a:0},
+{q:"चंबल नदी पर बना कौन-सा बाँध परमाणु विद्युत गृह के लिए प्रसिद्ध है?",o:["गांधी सागर बाँध","राणा प्रताप सागर बाँध","जवाहर सागर बाँध","कोटा बैराज"],a:1},
+{q:"चंबल नदी के किनारे कौन-सा शहर स्थित है?",o:["कोटा","बीकानेर","जैसलमेर","बाड़मेर"],a:0},
+{q:"राष्ट्रीय चंबल घड़ियाल अभयारण्य किन राज्यों के संयुक्त प्रयास से स्थापित किया गया?",o:["राजस्थान, मध्य प्रदेश और उत्तर प्रदेश","राजस्थान, गुजरात और महाराष्ट्र","राजस्थान, हरियाणा और पंजाब","मध्य प्रदेश, गुजरात और महाराष्ट्र"],a:0},
+{q:"चंबल नदी पर बना हैंगिंग ब्रिज किस शहर में है?",o:["जयपुर","उदयपुर","कोटा","अजमेर"],a:2},
+{q:"किताब के अनुसार चंबल नदी पर अधिकतम कितनी लिफ्ट नहरें हैं?",o:["6","8","10","12"],a:2},
+{q:"गंभीरी नदी का संबंध किस क्षेत्र से बताया गया है?",o:["चित्तौड़गढ़","बीकानेर","जैसलमेर","बाड़मेर"],a:0},
+{q:"चंबल नदी की एक प्रमुख उपयोगिता क्या है?",o:["केवल मरुस्थल में बहना","सिंचाई और जलविद्युत उत्पादन","राजस्थान में पूरी तरह सूख जाना","राजस्थान की सबसे छोटी नदी होना"],a:1}
+];
+let current=0, score=0, answered=0;
+const quiz=document.getElementById('quiz');
+function render(){
+  quiz.innerHTML='';
+  questions.forEach((item,i)=>{
+    const card=document.createElement('section'); card.className='card'; card.id='q'+i;
+    card.innerHTML=`<div class="qtitle">${i+1}. ${item.q}</div><div class="opts"></div><div class="feedback" aria-live="polite"></div><div class="controls"></div>`;
+    const opts=card.querySelector('.opts');
+    item.o.forEach((opt,j)=>{
+      const b=document.createElement('button'); b.className='option'; b.textContent=String.fromCharCode(65+j)+'. '+opt;
+      b.onclick=()=>choose(i,j,card); opts.appendChild(b);
+    });
+    const controls=card.querySelector('.controls');
+    if(i>0){const prev=document.createElement('button');prev.className='mainbtn secondary';prev.textContent='पिछला';prev.onclick=()=>show(i-1);controls.appendChild(prev)}
+    if(i<questions.length-1){const next=document.createElement('button');next.className='mainbtn';next.textContent='अगला प्रश्न';next.onclick=()=>show(i+1);next.disabled=true;next.id='next'+i;controls.appendChild(next)}
+    else {const finish=document.createElement('button');finish.className='mainbtn';finish.textContent='रिज़ल्ट देखें';finish.onclick=showResult;finish.disabled=true;finish.id='next'+i;controls.appendChild(finish)}
+    quiz.appendChild(card);
+  });
+  show(0); updateScore();
+}
+function choose(i,j,card){
+  const item=questions[i]; const buttons=[...card.querySelectorAll('.option')];
+  if(buttons.some(b=>b.disabled)) return;
+  answered++;
+  buttons.forEach((b,k)=>{b.disabled=true;if(k===item.a)b.classList.add('correct')});
+  const fb=card.querySelector('.feedback');
+  if(j===item.a){score++;fb.textContent='✔ सही जवाब!';fb.className='feedback right'}
+  else {buttons[j].classList.add('wrong');fb.textContent='✘ गलत जवाब। सही उत्तर: '+String.fromCharCode(65+item.a)+'. '+item.o[item.a];fb.className='feedback wrongtext'}
+  document.getElementById('next'+i).disabled=false; updateScore();
+}
+function updateScore(){document.getElementById('score').textContent=`स्कोर: ${score} / 25  |  जवाब दिए: ${answered} / 25`}
+function show(i){current=i;document.querySelectorAll('#quiz .card').forEach((c,k)=>c.hidden=k!==i);document.getElementById('end').hidden=true;window.scrollTo({top:0,behavior:'smooth'})}
+function showResult(){document.querySelectorAll('#quiz .card').forEach(c=>c.hidden=true);document.getElementById('end').hidden=false;let msg=score>=22?'बहुत बढ़िया!':score>=17?'अच्छा प्रयास!':'अच्छा अभ्यास करें—आप फिर बेहतर कर सकते हैं।';document.getElementById('result').textContent=`आपका स्कोर: ${score} / 25 (${Math.round(score/25*100)}%) — ${msg}`;window.scrollTo({top:0,behavior:'smooth'})}
+function resetQuiz(){current=0;score=0;answered=0;render()}
+render();
+</script>
+</body>
+</html>
