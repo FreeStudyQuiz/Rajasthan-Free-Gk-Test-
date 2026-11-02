@@ -1,10 +1,454 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-<title>Test 2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>राजस्थान नदियाँ MCQ टेस्ट</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#eef2f7;
+ color:#172536;
+}
+header{
+ background:linear-gradient(135deg,#123b67,#1976b9);
+ color:white;
+ text-align:center;
+ padding:22px 10px;
+}
+.container{max-width:800px;margin:15px auto;padding:10px}
+.card{
+ background:white;
+ padding:18px;
+ margin:12px 0;
+ border-radius:14px;
+ box-shadow:0 3px 12px #0001;
+}
+.info{
+ display:flex;
+ justify-content:space-around;
+ text-align:center;
+ background:#eef5fc;
+ padding:12px;
+ border-radius:10px;
+}
+.info strong{display:block;font-size:22px;color:#123b67}
+input[type=text]{
+ width:100%;
+ padding:13px;
+ border:1px solid #bbb;
+ border-radius:8px;
+ font-size:16px;
+}
+button{
+ padding:12px 18px;
+ border:0;
+ border-radius:9px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+}
+.start,.submit{background:#123b67;color:white}
+.next{background:#1769aa;color:white}
+.prev{background:#ddd;color:#222}
+.option{
+ display:block;
+ padding:12px;
+ border:1px solid #ddd;
+ border-radius:9px;
+ margin:9px 0;
+ cursor:pointer;
+}
+.option.selected{background:#eaf3ff;border-color:#1769aa}
+.correct{background:#d9f8e3!important;border:2px solid green!important;color:#075c2d}
+.wrong{background:#ffe0e0!important;border:2px solid red!important;color:#982020}
+.progress{
+ height:9px;
+ background:#ddd;
+ border-radius:20px;
+ margin:12px 0;
+ overflow:hidden;
+}
+#bar{height:100%;width:0;background:#f2b544}
+.question{font-size:19px;font-weight:bold;margin:15px 0}
+.hidden{display:none}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:15px}
+#result{display:none}
+.score{text-align:center;font-size:30px;font-weight:bold;color:#123b67}
+.rank{text-align:center;font-size:22px;color:#a36b00;font-weight:bold}
+table{width:100%;border-collapse:collapse}
+td,th{padding:10px;border-bottom:1px solid #ddd;text-align:left}
+th{background:#eef5fc}
+</style>
 </head>
+
 <body>
-<h1>Rajasthan GK Test 2</h1>
-<p>जल्द ही टेस्ट शुरू होगा।</p>
+
+<header>
+<h1>राजस्थान भूगोल – नदियाँ</h1>
+<p>महत्वपूर्ण MCQ ऑनलाइन टेस्ट</p>
+</header>
+
+<div class="container">
+
+<div class="card" id="intro">
+
+<div class="info">
+<div><strong>30</strong>प्रश्न</div>
+<div><strong>+1</strong>सही उत्तर</div>
+<div><strong>-⅓</strong>गलत उत्तर</div>
+</div>
+
+<p>प्रत्येक सही उत्तर पर 1 अंक मिलेगा। गलत उत्तर पर ⅓ अंक काटा जाएगा।</p>
+
+<label>विद्यार्थी का नाम लिखें:</label>
+<input type="text" id="name" placeholder="अपना नाम लिखें">
+
+<br><br>
+<button class="start" onclick="startTest()">टेस्ट शुरू करें</button>
+
+</div>
+
+<div class="card hidden" id="test">
+
+<div style="display:flex;justify-content:space-between">
+<b id="count"></b>
+<b id="done"></b>
+</div>
+
+<div class="progress"><div id="bar"></div></div>
+
+<div class="question" id="question"></div>
+
+<div id="options"></div>
+
+<div class="actions">
+<button class="prev" id="prev" onclick="move(-1)">पिछला</button>
+<button class="next" id="next" onclick="move(1)">अगला</button>
+</div>
+
+<br>
+<button class="submit" onclick="submitTest()">टेस्ट जमा करें</button>
+
+</div>
+
+<div class="card" id="result">
+
+<h2 style="text-align:center">आपका परीक्षा परिणाम</h2>
+
+<div class="score" id="score"></div>
+<div class="rank" id="rank"></div>
+
+<hr>
+
+<p id="details"></p>
+
+<h3>🏆 टॉप 3 रैंक</h3>
+
+<table>
+<thead>
+<tr>
+<th>रैंक</th>
+<th>नाम</th>
+<th>अंक</th>
+</tr>
+</thead>
+<tbody id="leaders"></tbody>
+</table>
+
+<p style="font-size:13px;color:#666">
+टॉप 3 सूची इसी मोबाइल के ब्राउज़र में सेव होगी।
+</p>
+
+<button class="next" onclick="showReview()">उत्तर चेक करें</button>
+<button class="prev" onclick="location.reload()">दोबारा टेस्ट दें</button>
+
+<div id="review"></div>
+
+</div>
+</div>
+
+<script>
+
+const questions = [
+
+{q:"बाणगंगा नदी का बेसिन कितने जिलों में विस्तृत है?",
+o:["6","7","8","10"],a:2},
+
+{q:"बाणगंगा बेसिन में सर्वाधिक क्षेत्रफल किस जिले का है?",
+o:["अलवर","भरतपुर","दौसा","जयपुर"],a:1},
+
+{q:"बाणगंगा बेसिन में भरतपुर का क्षेत्रफल कितना है?",
+o:["2332 वर्ग किमी","2131 वर्ग किमी","2746 वर्ग किमी","2500 वर्ग किमी"],a:2},
+
+{q:"जमवारामगढ़ बाँध किस जिले में स्थित है?",
+o:["दौसा","जयपुर","अलवर","करौली"],a:1},
+
+{q:"जमवारामगढ़ बाँध का निर्माण किसने करवाया था?",
+o:["सवाई जयसिंह","रामसिंह द्वितीय","महाराणा प्रताप","मानसिंह प्रथम"],a:1},
+
+{q:"गंभीर नदी का उद्गम कहाँ से होता है?",
+o:["छप्पर पहाड़ियाँ","नादौती पहाड़ियाँ","डांग क्षेत्र","नाग पहाड़ियाँ"],a:1},
+
+{q:"गंभीर नदी राजस्थान के किस जिले में प्रवेश करती है?",
+o:["करौली","धौलपुर","अलवर","भरतपुर"],a:1},
+
+{q:"उत्तर प्रदेश में गंभीर नदी किस नाम से जानी जाती है?",
+o:["बनास","चंबल","उतंगन","सर्सा"],a:2},
+
+{q:"गंभीर नदी यमुना में कहाँ मिलती है?",
+o:["रिठई गाँव, आगरा","मथुरा","दिल्ली","प्रयागराज"],a:0},
+
+{q:"गंभीर नदी के किनारे कौन-सा प्रसिद्ध मंदिर है?",
+o:["कैलादेवी","श्री महावीर जी","गोविंद देव जी","मेहंदीपुर बालाजी"],a:1},
+
+{q:"पांचना बाँध किस जिले में है?",
+o:["करौली","भरतपुर","दौसा","जयपुर"],a:0},
+
+{q:"पांचना बाँध कितनी सहायक नदियों पर बना है?",
+o:["तीन","चार","पाँच","छह"],a:2},
+
+{q:"पांचना बाँध किस देश के सहयोग से निर्मित हुआ?",
+o:["जापान","अमेरिका","रूस","फ्रांस"],a:1},
+
+{q:"पांचना बाँध से निकलने के बाद नदी का नाम क्या हो जाता है?",
+o:["पार्वती","गंभीर","बाणगंगा","सर्सा"],a:1},
+
+{q:"पार्वती नदी की लंबाई कितनी है?",
+o:["100 किमी","123 किमी","145 किमी","160 किमी"],a:1},
+
+{q:"पार्वती नदी का उद्गम कहाँ से होता है?",
+o:["छप्पर पहाड़ियाँ","नादौती पहाड़ियाँ","डांग क्षेत्र","अरावली"],a:0},
+
+{q:"पार्वती नदी का समापन कहाँ होता है?",
+o:["चंबल","बनास","गंभीर","यमुना"],a:2},
+
+{q:"पार्वती बाँध किस गाँव में स्थित है?",
+o:["अंगाई गाँव","रिठई गाँव","हिंडौन","नादौती"],a:0},
+
+{q:"अजान बाँध किस जिले में स्थित है?",
+o:["अलवर","भरतपुर","जयपुर","करौली"],a:1},
+
+{q:"अजान बाँध किस नदी पर स्थित है?",
+o:["पार्वती","बाणगंगा","गंभीर","सर्सा"],a:2},
+
+{q:"अरवरी नदी का उद्गम किस बाँध से होता है?",
+o:["जमवारामगढ़","सकरा","पांचना","मानसरोवर"],a:1},
+
+{q:"अरवरी नदी की लंबाई कितनी है?",
+o:["35 किमी","40 किमी","45 किमी","55 किमी"],a:2},
+
+{q:"अरवरी संसद का गठन किस वर्ष किया गया?",
+o:["1995","1997","1999","2001"],a:2},
+
+{q:"अरवरी नदी का समापन किस नदी में होता है?",
+o:["गंभीर","सर्सा","बाणगंगा","पार्वती"],a:1},
+
+{q:"जगर नदी का उद्गम कहाँ से होता है?",
+o:["डांग क्षेत्र","छप्पर पहाड़ियाँ","नादौती पहाड़ियाँ","अरावली"],a:0},
+
+{q:"जगर बाँध कहाँ स्थित है?",
+o:["करौली","हिंडौन","अलवर","भरतपुर"],a:1},
+
+{q:"भगाणी नदी किस जिले में निकलती है?",
+o:["जयपुर","करौली","अलवर","दौसा"],a:2},
+
+{q:"भगाणी नदी किस बाँध को भरती है?",
+o:["पांचना","मानसरोवर","पार्वती","जमवारामगढ़"],a:1},
+
+{q:"सर्सा नदी को अन्य किस नाम से जाना जाता है?",
+o:["सावा","उतंगन","जगर","पार्वती"],a:0},
+
+{q:"सर्सा नदी आगे चलकर किस नदी में मिलती है?",
+o:["गंभीर","चंबल","बाणगंगा","बनास"],a:2}
+
+];
+
+let current=0;
+let answers=Array(30).fill(null);
+let student="";
+let submitted=false;
+
+function startTest(){
+
+student=document.getElementById("name").value.trim();
+
+if(!student){
+alert("पहले अपना नाम लिखें");
+return;
+}
+
+document.getElementById("intro").classList.add("hidden");
+document.getElementById("test").classList.remove("hidden");
+
+showQuestion();
+
+}
+
+function showQuestion(){
+
+let q=questions[current];
+
+document.getElementById("count").innerText=
+"प्रश्न "+(current+1)+" / 30";
+
+document.getElementById("done").innerText=
+"हल किए: "+answers.filter(x=>x!==null).length;
+
+document.getElementById("question").innerText=
+(current+1)+". "+q.q;
+
+let html="";
+
+q.o.forEach((op,i)=>{
+
+html+=`
+<label class="option ${answers[current]===i?'selected':''}">
+<input type="radio" name="ans" value="${i}"
+${answers[current]===i?'checked':''}
+onchange="selectAnswer(${i})">
+${String.fromCharCode(65+i)}. ${op}
+</label>`;
+
+});
+
+document.getElementById("options").innerHTML=html;
+
+document.getElementById("prev").disabled=current===0;
+document.getElementById("next").disabled=current===29;
+
+document.getElementById("bar").style.width=
+(answers.filter(x=>x!==null).length/30*100)+"%";
+
+}
+
+function selectAnswer(i){
+answers[current]=i;
+showQuestion();
+}
+
+function move(n){
+current+=n;
+showQuestion();
+}
+
+function submitTest(){
+
+if(submitted)return;
+
+let skip=answers.filter(x=>x===null).length;
+
+if(skip>0 && !confirm(skip+" प्रश्न खाली हैं। क्या जमा करना है?"))return;
+
+if(!confirm("क्या आप टेस्ट जमा करना चाहते हैं?"))return;
+
+submitted=true;
+
+let correct=0,wrong=0,blank=0;
+
+questions.forEach((q,i)=>{
+
+if(answers[i]===null)blank++;
+else if(answers[i]===q.a)correct++;
+else wrong++;
+
+});
+
+let marks=correct-wrong/3;
+let percent=marks/30*100;
+
+document.getElementById("test").classList.add("hidden");
+document.getElementById("result").style.display="block";
+
+document.getElementById("score").innerText=
+marks.toFixed(2)+" / 30";
+
+document.getElementById("details").innerHTML=
+"विद्यार्थी: "+student+
+"<br>सही उत्तर: "+correct+
+"<br>गलत उत्तर: "+wrong+
+"<br>छोड़े गए: "+blank+
+"<br>प्रतिशत: "+percent.toFixed(2)+"%";
+
+let records=JSON.parse(localStorage.getItem("riverRanks")||"[]");
+
+let record={
+name:student,
+score:Number(marks.toFixed(2)),
+correct:correct,
+time:Date.now()
+};
+
+records.push(record);
+
+records.sort((a,b)=>
+b.score-a.score ||
+b.correct-a.correct ||
+a.time-b.time
+);
+
+let myRank=records.findIndex(x=>x===record)+1;
+
+document.getElementById("rank").innerText=
+myRank<=3?"🏆 आपकी रैंक: "+myRank:"अच्छा प्रयास!";
+
+let top=records.slice(0,3);
+
+localStorage.setItem("riverRanks",JSON.stringify(top));
+
+document.getElementById("leaders").innerHTML=
+top.map((r,i)=>`
+<tr>
+<td>${i+1}</td>
+<td>${escapeText(r.name)}</td>
+<td>${r.score.toFixed(2)}</td>
+</tr>
+`).join("");
+
+}
+
+function escapeText(s){
+return s.replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"
+}[c]));
+}
+
+function showReview(){
+
+let html="";
+
+questions.forEach((q,i)=>{
+
+html+=`<div class="card">
+<div class="question">${i+1}. ${q.q}</div>`;
+
+q.o.forEach((op,j)=>{
+
+let cls="option";
+
+if(j===q.a)cls+=" correct";
+else if(answers[i]===j)cls+=" wrong";
+
+html+=`<div class="${cls}">
+${String.fromCharCode(65+j)}. ${op}
+${j===q.a?" ✓ सही उत्तर":""}
+${answers[i]===j&&j!==q.a?" ✗ आपका उत्तर":""}
+</div>`;
+
+});
+
+html+="</div>";
+
+});
+
+document.getElementById("review").innerHTML=html;
+
+}
+
+</script>
 </body>
 </html>
