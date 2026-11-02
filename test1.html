@@ -1,10 +1,476 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-<title>Test 1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rajasthan GK Test 1</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+font-family:Arial,sans-serif;
+background:#eef2f7;
+margin:0;
+padding:12px;
+color:#222;
+}
+.wrap{max-width:650px;margin:auto}
+.card{
+background:white;
+padding:18px;
+border-radius:14px;
+margin:14px 0;
+box-shadow:0 2px 8px #0001;
+}
+h1{text-align:center;color:#174b82;font-size:23px}
+h2{font-size:19px}
+input{
+width:100%;
+padding:13px;
+border:1px solid #aaa;
+border-radius:8px;
+font-size:17px;
+}
+button{
+padding:13px;
+border:0;
+border-radius:8px;
+background:#1769aa;
+color:white;
+font-size:16px;
+margin-top:10px;
+cursor:pointer;
+}
+.option{
+display:block;
+width:100%;
+text-align:left;
+background:#f1f4f8;
+color:#222;
+border:1px solid #ccd3dc;
+margin:9px 0;
+}
+.option.correct{
+background:#c9f2d4;
+border:2px solid green;
+}
+.option.wrong{
+background:#ffd6d6;
+border:2px solid red;
+}
+.option:disabled{opacity:1}
+.feedback{font-weight:bold;margin-top:12px;line-height:1.6}
+.small{text-align:center;color:#555}
+#quiz,#result{display:none}
+#progress{
+font-weight:bold;
+color:#1769aa;
+margin-bottom:15px;
+}
+</style>
 </head>
+
 <body>
-<h1>Rajasthan GK Test 1</h1>
-<p>जल्द ही टेस्ट शुरू होगा।</p>
+
+<div class="wrap">
+
+<div class="card">
+<h1>📚 Rajasthan Free GK Test</h1>
+<h2 style="text-align:center">
+टेस्ट नंबर 1 – राजस्थान भूगोल
+</h2>
+<p class="small">
+बनास नदी एवं उसकी सहायक नदियाँ
+</p>
+<p class="small">कुल प्रश्न: 30 | कुल अंक: 30</p>
+</div>
+
+<div class="card" id="start">
+<h2>विद्यार्थी का नाम लिखें</h2>
+<input id="student" placeholder="अपना नाम लिखें">
+<button onclick="startTest()">टेस्ट शुरू करें</button>
+</div>
+
+<div id="quiz">
+<div class="card">
+
+<div id="studentName"></div>
+<div id="progress"></div>
+
+<div id="question"></div>
+<div id="options"></div>
+
+<div id="feedback" class="feedback"></div>
+
+<button id="next" onclick="nextQuestion()" style="display:none">
+अगला प्रश्न ➜
+</button>
+
+</div>
+</div>
+
+<div class="card" id="result">
+
+<h1>🏆 आपका रिजल्ट</h1>
+
+<h2 id="resultName"></h2>
+<h2 id="score"></h2>
+<h2 id="percent"></h2>
+<h2 id="grade"></h2>
+
+<p id="details"></p>
+
+<button onclick="location.reload()">
+दोबारा टेस्ट दें
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const questions=[
+
+{
+q:"बनास नदी का उद्गम कहाँ से होता है?",
+o:["खमनोर की पहाड़ियाँ","विंध्याचल पर्वत","दिवेर की पहाड़ियाँ","बीजराल गाँव"],
+a:0,
+e:"बनास नदी का उद्गम खमनोर की पहाड़ियों (राजसमंद) से होता है।"
+},
+
+{
+q:"बनास नदी की कुल लंबाई कितनी है?",
+o:["480 किमी","512 किमी","190 किमी","145 किमी"],
+a:1,
+e:"बनास नदी की कुल लंबाई 512 किलोमीटर है।"
+},
+
+{
+q:"बनास नदी का समापन कहाँ होता है?",
+o:["गागरोन","राजमहल","रामेश्वरम","नंदराय"],
+a:2,
+e:"बनास नदी रामेश्वरम में चंबल नदी से मिलती है।"
+},
+
+{
+q:"बनास नदी किस नदी में मिलती है?",
+o:["कालीसिंध","चंबल","माही","लूनी"],
+a:1,
+e:"बनास नदी चंबल नदी में मिलती है।"
+},
+
+{
+q:"बनास नदी का जलग्रहण क्षेत्र कितना है?",
+o:["46,570 वर्ग किमी","35,000 वर्ग किमी","25,000 वर्ग किमी","50,000 वर्ग किमी"],
+a:0,
+e:"बनास नदी का जलग्रहण क्षेत्र 46,570 वर्ग किमी है।"
+},
+
+{
+q:"राजस्थान में पूर्णतः बहने वाली सबसे बड़ी नदी कौन-सी है?",
+o:["माही","चंबल","बनास","लूनी"],
+a:2,
+e:"बनास राजस्थान में पूर्णतः बहने वाली सबसे बड़ी नदी है।"
+},
+
+{
+q:"बनास, बेड़च और मेनाल का त्रिवेणी संगम कहाँ है?",
+o:["देवधाम","बीगोद","राजमहल","गागरोन"],
+a:1,
+e:"बीगोद में बनास, बेड़च और मेनाल का त्रिवेणी संगम होता है।"
+},
+
+{
+q:"बनास, खारी और डाई का त्रिवेणी संगम कहाँ है?",
+o:["बीगोद","राजमहल","देवधाम","रामेश्वरम"],
+a:1,
+e:"राजमहल (टोंक) में बनास, खारी और डाई मिलती हैं।"
+},
+
+{
+q:"बनास, बांडी और माशी का त्रिवेणी संगम कहाँ है?",
+o:["देवधाम","बीगोद","राजमहल","नंदराय"],
+a:0,
+e:"देवधाम (टोंक) में बनास, बांडी और माशी का संगम होता है।"
+},
+
+{
+q:"बीसलपुर बाँध किस नदी पर बना हुआ है?",
+o:["मेज","बनास","खारी","कोठारी"],
+a:1,
+e:"बीसलपुर बाँध बनास नदी पर बना है।"
+},
+
+{
+q:"बीसलपुर बाँध किस जिले में स्थित है?",
+o:["जयपुर","अजमेर","टोंक","बूंदी"],
+a:2,
+e:"बीसलपुर बाँध देवली (टोंक) में स्थित है।"
+},
+
+{
+q:"बनास नदी का उद्गम किस जिले में है?",
+o:["राजसमंद","झालावाड़","कोटा","टोंक"],
+a:0,
+e:"बनास नदी का उद्गम राजसमंद जिले की खमनोर पहाड़ियों से होता है।"
+},
+
+{
+q:"चंद्रभागा नदी का उद्गम कहाँ से होता है?",
+o:["सेमली","सुसनेर","राजगढ़","खमनोर"],
+a:0,
+e:"चंद्रभागा नदी का उद्गम सेमली (झालावाड़) से होता है।"
+},
+
+{
+q:"चंद्रभागा नदी किस नदी में मिलती है?",
+o:["बनास","चंबल","कालीसिंध","मेज"],
+a:2,
+e:"चंद्रभागा नदी खाड़िया गाँव के पास कालीसिंध में मिलती है।"
+},
+
+{
+q:"परवन नदी का उद्गम किस पर्वत से होता है?",
+o:["अरावली","विंध्याचल","सतपुड़ा","हिमालय"],
+a:1,
+e:"परवन नदी का उद्गम विंध्याचल पर्वत से होता है।"
+},
+
+{
+q:"परवन नदी राजस्थान में किस जिले से प्रवेश करती है?",
+o:["झालावाड़","बूंदी","जयपुर","अजमेर"],
+a:0,
+e:"परवन नदी खरिबोर के पास झालावाड़ में प्रवेश करती है।"
+},
+
+{
+q:"परवन नदी अंत में किस नदी में मिलती है?",
+o:["बनास","मेज","कालीसिंध","चंबल"],
+a:2,
+e:"परवन नदी पलायथा के निकट कालीसिंध में मिलती है।"
+},
+
+{
+q:"आहू नदी का उद्गम कहाँ से होता है?",
+o:["सुसनेर","सेमली","खमनोर","राजगढ़"],
+a:0,
+e:"आहू नदी का उद्गम सुसनेर (मध्यप्रदेश) से होता है।"
+},
+
+{
+q:"आहू नदी किस स्थान पर कालीसिंध में मिलती है?",
+o:["गागरोन","बीगोद","राजमहल","देवधाम"],
+a:0,
+e:"आहू नदी गागरोन (झालावाड़) में कालीसिंध से मिलती है।"
+},
+
+{
+q:"नेवज नदी का उद्गम कहाँ होता है?",
+o:["राजगढ़","खमनोर","सेमली","बीजराल"],
+a:0,
+e:"नेवज नदी का उद्गम राजगढ़ (मध्यप्रदेश) से होता है।"
+},
+
+{
+q:"नेवज नदी परवन नदी में कहाँ मिलती है?",
+o:["मावासा","गागरोन","बीगोद","रामेश्वरम"],
+a:0,
+e:"नेवज नदी मावासा के पास परवन नदी में मिलती है।"
+},
+
+{
+q:"पीपलाज नदी का उद्गम कहाँ से होता है?",
+o:["पंचपहाड़","दिवेर","खमनोर","गोगुंदा"],
+a:0,
+e:"पीपलाज नदी का उद्गम पंचपहाड़ (झालावाड़) से होता है।"
+},
+
+{
+q:"पीपलाज नदी किस नदी में मिलती है?",
+o:["बनास","आहू","मेज","खारी"],
+a:1,
+e:"पीपलाज नदी आहू में मिलती है।"
+},
+
+{
+q:"मांगली नदी का उद्गम किस जिले से होता है?",
+o:["भीलवाड़ा","टोंक","कोटा","झालावाड़"],
+a:0,
+e:"मांगली नदी का उद्गम भीलवाड़ा जिले से होता है।"
+},
+
+{
+q:"मांगली नदी किस नदी में मिलती है?",
+o:["बनास","चंबल","मेज","कालीसिंध"],
+a:2,
+e:"मांगली नदी सांगवाड़ा (बूंदी) में मेज नदी में मिलती है।"
+},
+
+{
+q:"कोठारी नदी का उद्गम कहाँ से होता है?",
+o:["दिवेर की पहाड़ियाँ","खमनोर की पहाड़ियाँ","सेमली","सुसनेर"],
+a:0,
+e:"कोठारी नदी का उद्गम दिवेर की पहाड़ियों (राजसमंद) से होता है।"
+},
+
+{
+q:"कोठारी नदी की लंबाई कितनी है?",
+o:["80 किमी","145 किमी","190 किमी","512 किमी"],
+a:1,
+e:"कोठारी नदी की लंबाई 145 किलोमीटर है।"
+},
+
+{
+q:"खारी नदी का उद्गम किस गाँव की पहाड़ियों से होता है?",
+o:["बीजराल","सेमली","खमनोर","पंचपहाड़"],
+a:0,
+e:"खारी नदी का उद्गम बीजराल गाँव की पहाड़ियों से होता है।"
+},
+
+{
+q:"खारी नदी की लंबाई कितनी है?",
+o:["80 किमी","145 किमी","190 किमी","512 किमी"],
+a:0,
+e:"खारी नदी की लंबाई 80 किलोमीटर है।"
+},
+
+{
+q:"बनास नदी की सहायक नदियों में कौन-सी नदी शामिल है?",
+o:["बेड़च","घग्घर","लूनी","साबरमती"],
+a:0,
+e:"बेड़च बनास नदी की प्रमुख सहायक नदियों में शामिल है।"
+}
+
+];
+
+let current=0;
+let score=0;
+let wrong=0;
+let studentName="";
+
+function startTest(){
+
+studentName=document.getElementById("student").value.trim();
+
+if(!studentName){
+alert("कृपया अपना नाम लिखें");
+return;
+}
+
+document.getElementById("start").style.display="none";
+document.getElementById("quiz").style.display="block";
+
+document.getElementById("studentName").textContent=
+"विद्यार्थी: "+studentName;
+
+showQuestion();
+
+}
+
+function showQuestion(){
+
+let q=questions[current];
+
+document.getElementById("progress").textContent=
+"प्रश्न "+(current+1)+" / "+questions.length;
+
+document.getElementById("question").textContent=q.q;
+
+document.getElementById("feedback").textContent="";
+document.getElementById("next").style.display="none";
+
+let html="";
+
+q.o.forEach((op,i)=>{
+
+html+='<button class="option" onclick="answer('+i+')" id="op'+i+'">'+
+String.fromCharCode(65+i)+'. '+op+'</button>';
+
+});
+
+document.getElementById("options").innerHTML=html;
+
+}
+
+function answer(i){
+
+let q=questions[current];
+
+document.querySelectorAll(".option").forEach(b=>{
+b.disabled=true;
+});
+
+let fb=document.getElementById("feedback");
+
+if(i===q.a){
+
+score++;
+
+document.getElementById("op"+i).classList.add("correct");
+
+fb.textContent="✅ सही जवाब! "+q.e;
+fb.style.color="green";
+
+}else{
+
+wrong++;
+
+document.getElementById("op"+i).classList.add("wrong");
+document.getElementById("op"+q.a).classList.add("correct");
+
+fb.textContent="❌ गलत जवाब! सही उत्तर: "+
+q.o[q.a]+"। "+q.e;
+
+fb.style.color="red";
+
+}
+
+document.getElementById("next").style.display="inline-block";
+
+}
+
+function nextQuestion(){
+
+current++;
+
+if(current<questions.length){
+showQuestion();
+}else{
+showResult();
+}
+
+}
+
+function showResult(){
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+
+let p=Math.round(score/questions.length*100);
+
+document.getElementById("resultName").textContent=
+"नाम: "+studentName;
+
+document.getElementById("score").textContent=
+"प्राप्त अंक: "+score+" / "+questions.length;
+
+document.getElementById("percent").textContent=
+"प्रतिशत: "+p+"%";
+
+let g=p>=80?"बहुत अच्छा प्रदर्शन 🏆":
+p>=60?"अच्छा प्रदर्शन 👍":
+p>=40?"और अभ्यास करें 📚":
+"अभ्यास जारी रखें";
+
+document.getElementById("grade").textContent=g;
+
+document.getElementById("details").textContent=
+"सही उत्तर: "+score+" | गलत उत्तर: "+wrong;
+
+}
+
+</script>
+
 </body>
 </html>
