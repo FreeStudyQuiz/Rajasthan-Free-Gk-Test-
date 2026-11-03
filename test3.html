@@ -1,207 +1,114 @@
-   button.textContent =
-            String.fromCharCode(65 + index) + ". " + option;
-
-        if (userAnswers[currentQuestion] === index && !submitted) {
-            button.style.borderColor = "#1769aa";
-            button.style.background = "#e5f2ff";
-        }
-
-        if (submitted) {
-
-            if (index === q.ans) {
-                button.classList.add("correct");
-            }
-
-            if (
-                userAnswers[currentQuestion] === index &&
-                index !== q.ans
-            ) {
-                button.classList.add("wrong");
-            }
-
-            button.disabled = true;
-
-        } else {
-
-            button.onclick = function() {
-                selectAnswer(index);
-            };
-
-        }
-
-        optionsArea.appendChild(button);
-
-    });
-
-    const explanation = document.getElementById("explanation");
-
-    if (submitted) {
-        explanation.hidden = false;
-        explanation.textContent = "व्याख्या: " + q.exp;
-    } else {
-        explanation.hidden = true;
-        explanation.textContent = "";
-    }
-
-    document.getElementById("previousBtn").disabled =
-        currentQuestion === 0;
-
-    document.getElementById("nextBtn").disabled =
-        currentQuestion === quizData.length - 1;
-
-    document.getElementById("nextBtn").style.display =
-        currentQuestion === quizData.length - 1 ? "none" : "block";
-
-    document.getElementById("submitBtn").style.display =
-        currentQuestion === quizData.length - 1 && !submitted
-        ? "block"
-        : "none";
-
-    if (submitted) {
-        document.getElementById("nextBtn").style.display = "none";
-        document.getElementById("previousBtn").style.display = "block";
-    }
-
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>राजस्थान भूगोल — नदी तंत्र MCQ टेस्ट</title>
+<style>
+:root{--navy:#14213d;--blue:#2563eb;--bg:#f3f6fb;--green:#16803c;--red:#d62828}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#eaf2ff,#f8fafc);font-family:Arial,sans-serif;color:#172033}
+.wrap{max-width:760px;margin:auto;padding:16px}
+.hero{background:linear-gradient(120deg,#14213d,#2563eb);color:white;padding:22px;border-radius:20px}
+.hero h1{font-size:24px;margin:0 0 8px}
+.hero p{line-height:1.6}
+.badge{display:inline-block;background:#ffffff20;padding:8px;border-radius:20px}
+.panel,.quiz,.result{background:white;margin-top:16px;padding:20px;border-radius:18px;box-shadow:0 6px 22px #17203312}
+label{font-weight:bold;display:block;margin-bottom:8px}
+input[type=text]{width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px}
+button{border:0;border-radius:12px;padding:13px 18px;font-size:16px;font-weight:bold;cursor:pointer}
+.primary{background:#2563eb;color:white;width:100%;margin-top:14px}
+.secondary{background:#e8eefb;color:#183153}
+.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:bold}
+.track{height:8px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:14px 0}
+.bar{height:100%;background:#2563eb;width:0}
+.qnum{color:#2563eb;font-weight:bold}
+.question{font-size:21px;line-height:1.6;margin:12px 0 18px;font-weight:bold}
+.option{display:block;width:100%;text-align:left;background:#f8fafc;border:2px solid #e2e8f0;margin:10px 0;padding:14px;border-radius:12px;color:#172033;font-size:16px}
+.option:disabled{cursor:default}
+.option.correct{background:#dcfce7;border-color:#16803c;color:#14532d}
+.option.wrong{background:#fee2e2;border-color:#d62828;color:#7f1d1d}
+.feedback{font-weight:bold;margin:12px 0;min-height:24px}
+.controls{display:flex;gap:10px;margin-top:14px}
+.controls button{flex:1}
+.muted{color:#64748b;font-size:14px;line-height:1.6}
+.hide{display:none}
+.score{font-size:38px;font-weight:900}
+.pass{color:#16803c}
+.fail{color:#d62828}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:10px;border-bottom:1px solid #e2e8f0;text-align:left}
+th{background:#eff6ff}
+@media(max-width:480px){
+.wrap{padding:10px}
+.hero h1{font-size:21px}
+.panel,.quiz,.result{padding:16px}
+.question{font-size:19px}
 }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<h1>🏞️ राजस्थान भूगोल: नदी तंत्र MCQ टेस्ट</h1>
+<p>120 प्रश्न • एक समय में एक प्रश्न • सही उत्तर हरा और गलत उत्तर लाल</p>
+<span class="badge">पास होने के लिए कम-से-कम 40% अंक जरूरी</span>
+</header>
 
-function selectAnswer(index) {
+<section class="panel" id="start">
+<label for="studentName">अपना नाम लिखें</label>
+<input id="studentName" type="text" maxlength="40" placeholder="अपना नाम लिखें">
+<p class="muted">हर सही उत्तर के 1 अंक। गलत उत्तर के 0 अंक। 120 में से 48 अंक लाने पर PASS होगा।</p>
+<button class="primary" onclick="startTest()">टेस्ट शुरू करें →</button>
+</section>
 
-    if (submitted) return;
+<section class="quiz hide" id="quiz">
+<div class="topline">
+<span id="progressText">प्रश्न 1/120</span>
+<span id="scoreText">अंक: 0</span>
+</div>
+<div class="track"><div class="bar" id="bar"></div></div>
+<div class="qnum" id="qnum"></div>
+<div class="question" id="question"></div>
+<div id="options"></div>
+<div class="feedback" id="feedback"></div>
+<div class="controls">
+<button class="secondary" id="nextBtn" onclick="nextQuestion()" disabled>अगला प्रश्न →</button>
+</div>
+</section>
 
-    userAnswers[currentQuestion] = index;
+<section class="result hide" id="result"></section>
+</div>
 
-    renderQuestion();
-
-}
-
-function nextQuestion() {
-
-    if (currentQuestion < quizData.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-}
-
-function previousQuestion() {
-
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-}
-
-function submitQuiz() {
-
-    if (submitted) return;
-
-    const name = document.getElementById("username").value.trim();
-
-    if (!name) {
-        alert("कृपया पहले अपना नाम लिखें।");
-        document.getElementById("username").focus();
-        return;
-    }
-
-    const unanswered = userAnswers.filter(
-        answer => answer === null
-    ).length;
-
-    if (unanswered > 0) {
-
-        const confirmSubmit = confirm(
-            "आपने " + unanswered +
-            " प्रश्नों के उत्तर नहीं दिए हैं। क्या आप टेस्ट सबमिट करना चाहते हैं?"
-        );
-
-        if (!confirmSubmit) return;
-
-    }
-
-    let correct = 0;
-    let wrong = 0;
-
-    userAnswers.forEach(function(answer, index) {
-
-        if (answer === null) return;
-
-        if (answer === quizData[index].ans) {
-            correct++;
-        } else {
-            wrong++;
-        }
-
-    });
-
-    let score = correct - (wrong / 3);
-
-    if (score < 0) score = 0;
-
-    score = Math.round(score * 100) / 100;
-
-    const percentage = (
-        score / quizData.length * 100
-    ).toFixed(2);
-
-    let status = percentage >= 40
-        ? "उत्तीर्ण ✅"
-        : "अनुत्तीर्ण ❌";
-
-    let rank = "रैंक 5";
-
-    if (percentage >= 90) {
-        rank = "रैंक 1 🏆";
-    } else if (percentage >= 75) {
-        rank = "रैंक 2 🌟";
-    } else if (percentage >= 60) {
-        rank = "रैंक 3 👍";
-    } else if (percentage >= 40) {
-        rank = "रैंक 4 ✅";
-    }
-
-    submitted = true;
-
-    document.getElementById("resultName").textContent = name;
-    document.getElementById("totalQuestions").textContent = quizData.length;
-    document.getElementById("correctCount").textContent = correct;
-    document.getElementById("wrongCount").textContent = wrong;
-    document.getElementById("unansweredCount").textContent = unanswered;
-    document.getElementById("finalScore").textContent =
-        score + " / " + quizData.length;
-    document.getElementById("percentage").textContent = percentage;
-    document.getElementById("passStatus").textContent = status;
-    document.getElementById("rank").textContent = rank;
-
-    document.getElementById("result").style.display = "block";
-    document.getElementById("reviewBtn").style.display = "block";
-    document.getElementById("username").disabled = true;
-
-    renderQuestion();
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
-}
-
-function reviewAnswers() {
-
-    document.getElementById("result").style.display = "none";
-
-    currentQuestion = 0;
-
-    renderQuestion();
-
-    document.getElementById("quizArea").scrollIntoView({
-        behavior: "smooth"
-    });
-
-}
-
-renderQuestion();
-
-</script>
-
-</body>
-</html>
+<script>
+const questions = [
+{"q":"राजस्थान की सबसे लंबी आंतरिक प्रवाह वाली नदी कौन-सी है?","o":["लूणी","चम्बल","माही","बनास"],"a":0},
+{"q":"लूणी नदी की कुल लंबाई कितनी है?","o":["416 किमी","495 किमी","576 किमी","1051 किमी"],"a":1},
+{"q":"राजस्थान में लूणी नदी की लंबाई कितनी है?","o":["171 किमी","320 किमी","322 किमी","45 किमी"],"a":1},
+{"q":"लूणी नदी का जलग्रहण क्षेत्र कितना है?","o":["16,030 वर्ग किमी","29,110 वर्ग किमी","34,250 वर्ग किमी","46,570 वर्ग किमी"],"a":2},
+{"q":"लूणी नदी का उद्गम कहाँ होता है?","o":["नाग पहाड़, अजमेर","पुष्कर घाटी","पदराला की पहाड़ियाँ","भंवरमाता की पहाड़ियाँ"],"a":0},
+{"q":"लूणी नदी अजमेर में किस नाम से जानी जाती है?","o":["साबरमती","सागरमती","सरस्वती","बाणगंगा"],"a":1},
+{"q":"लूणी नदी अंततः कहाँ समाप्त होती है?","o":["बंगाल की खाड़ी","अरब सागर","कच्छ का रण","खम्भात की खाड़ी"],"a":2},
+{"q":"लूणी नदी किस क्षेत्र की प्रमुख नदी है?","o":["हाड़ौती","मेवाड़","मारवाड़","वागड़"],"a":2},
+{"q":"लूणी नदी का प्रवाह मुख्यतः किस दिशा में है?","o":["पूर्व से पश्चिम","पश्चिम से पूर्व","उत्तर से दक्षिण","दक्षिण से उत्तर"],"a":0},
+{"q":"लूणी नदी का जल बालोतरा के बाद कैसा हो जाता है?","o":["मीठा","खारा","बर्फीला","स्वच्छ"],"a":1},
+{"q":"लूणी नदी के किनारे प्रसिद्ध पशु मेला कहाँ लगता है?","o":["पुष्कर","तिलवाड़ा","बेणेश्वर","रामदेवरा"],"a":1},
+{"q":"जवाई नदी किस नदी की सहायक नदी है?","o":["चम्बल","लूणी","बनास","माही"],"a":1},
+{"q":"जवाई बाँध किस क्षेत्र में स्थित है?","o":["सुमेरपुर, पाली","कोटा","झालावाड़","भरतपुर"],"a":0},
+{"q":"सुकड़ी नदी की कुल लंबाई लगभग कितनी है?","o":["45 किमी","83 किमी","110 किमी","185 किमी"],"a":2},
+{"q":"सुकड़ी नदी किस नदी में मिलती है?","o":["चम्बल","माही","लूणी","साबरमती"],"a":2},
+{"q":"मीठड़ी नदी कहाँ लूणी में मिलती है?","o":["मंगला गाँव के पास","गालियाकोट","सेमेलिया","कोटा"],"a":0},
+{"q":"बांडी नदी किस नदी तंत्र से संबंधित है?","o":["लूणी","चम्बल","बनास","माही"],"a":0},
+{"q":"गुहिया नदी किस जिले में बहती है?","o":["पाली","बांसवाड़ा","भरतपुर","सीकर"],"a":0},
+{"q":"राजस्थान की एकमात्र बारहमासी नदी कौन-सी बताई गई है?","o":["चम्बल","लूणी","बनास","जवाई"],"a":0},
+{"q":"चम्बल नदी की कुल लंबाई कितनी है?","o":["495 किमी","576 किमी","1051 किमी","416 किमी"],"a":2},
+{"q":"चम्बल नदी की राजस्थान में लंबाई कितनी है?","o":["171 किमी","322 किमी","320 किमी","45 किमी"],"a":1},
+{"q":"चम्बल नदी पर कौन-सा प्रमुख बाँध है?","o":["गांधीसागर बाँध","जवाई बाँध","बांकली बाँध","जाखम बाँध"],"a":0},
+{"q":"बनास नदी की कुल लंबाई कितनी है?","o":["380 किमी","495 किमी","512 किमी","1051 किमी"],"a":2},
+{"q":"बनास नदी की पूरी लंबाई किस राज्य में है?","o":["गुजरात","मध्य प्रदेश","राजस्थान","उत्तर प्रदेश"],"a":2},
+{"q":"बनास नदी किस नदी में मिलती है?","o":["चम्बल","लूणी","माही","साबरमती"],"a":0},
+{"q":"माही नदी की कुल लंबाई कितनी है?","o":["495 किमी","576 किमी","416 किमी","1051 किमी"],"a":1},
+{"q":"माही नदी अंततः कहाँ गिरती है?","o":["कच्छ का रण","खम्भात की खाड़ी","बंगाल की खाड़ी","चिल्का झील"],"a":1},
+{"q":"माही नदी पर कौन-सा प्रमुख बाँध है?","o":["माही बजाज सागर","जवाई बाँध","बांकली बाँध","गांधीसागर"],"a":0},
+{"q":"साबरमती नदी का उद्गम किस क्षेत्र में है?","o":["पदराला की पहाड़ियाँ","नाग पहाड़","खमनोर पहाड़ियाँ","भंवरमाता"],"a":0},
+{"q":"साबरमती नदी गुजरात के किस शहर से संबंधित है?","o":["अहमदाबाद","जयपुर","कोटा","जोधपुर"],"a":0},
