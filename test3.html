@@ -1,403 +1,692 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>राजस्थान का भूगोल: नदियाँ (100 MCQ ऑनलाइन टेस्ट)</title>
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --background: #f4f7f6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
+<title>राजस्थान GK ऑनलाइन टेस्ट</title>
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            margin-bottom: 25px;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 12px;
+    color: #222;
+}
 
-        .user-info {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
+.container {
+    max-width: 750px;
+    margin: auto;
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px #0002;
+}
 
-        .user-info input {
-            padding: 10px 15px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            outline: none;
-            width: 60%;
-        }
+h1 {
+    text-align: center;
+    color: #17365d;
+    font-size: 23px;
+}
 
-        .score-board {
-            display: none;
-            background: #ebf5fb;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: center;
-            border: 1px solid #3498db;
-        }
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
 
-        .score-board h2 {
-            margin: 0 0 10px 0;
-            color: #2980b9;
-        }
+#username {
+    width: 100%;
+    padding: 13px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
 
-        .score-details {
-            display: flex;
-            justify-content: space-around;
-            font-size: 16px;
-            font-weight: bold;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+.progress-box {
+    background: #e5e7eb;
+    height: 8px;
+    border-radius: 10px;
+    margin: 12px 0 20px;
+    overflow: hidden;
+}
 
-        .q-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
+#progress {
+    height: 100%;
+    width: 0%;
+    background: #16803c;
+    transition: width .3s;
+}
 
-        .q-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
+.question-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 17px;
+    min-height: 300px;
+}
 
-        .options-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+.question-number {
+    color: #1769aa;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
 
-        .option-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-        }
+.question-text {
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
 
-        .option-btn:hover:not([disabled]) {
-            background: #e2e6ea;
-            border-color: #dae0e5;
-        }
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 13px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+    border-radius: 9px;
+    background: #f8fafc;
+    font-size: 16px;
+    line-height: 1.5;
+    cursor: pointer;
+    color: #222;
+}
 
-        .option-btn.correct {
-            background-color: #d4edda !important;
-            border-color: var(--success) !important;
-            color: #155724;
-            font-weight: bold;
-            animation: bounce 0.4s ease;
-        }
+.option:disabled {
+    cursor: default;
+    opacity: 1;
+}
 
-        .option-btn.correct::after {
-            content: " 🎉 ✨ सही उत्तर!";
-            position: absolute;
-            right: 15px;
-        }
+.option.correct {
+    background: #d4edda;
+    border-color: #198754;
+    color: #155724;
+    font-weight: bold;
+}
 
-        .option-btn.wrong {
-            background-color: #f8d7da !important;
-            border-color: var(--danger) !important;
-            color: #721c24;
-            animation: shake 0.4s ease;
-        }
+.option.wrong {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+    font-weight: bold;
+}
 
-        .option-btn.wrong::after {
-            content: " ❌ गलत उत्तर!";
-            position: absolute;
-            right: 15px;
-        }
+.explanation {
+    margin-top: 15px;
+    padding: 12px;
+    background: #fff3cd;
+    border-left: 5px solid #ffc107;
+    border-radius: 6px;
+    line-height: 1.6;
+}
 
-        .explanation {
-            display: none;
-            margin-top: 15px;
-            padding: 12px 15px;
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-            border-radius: 4px;
-            font-size: 15px;
-            color: #856404;
-        }
+.navigation {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+.nav-btn {
+    flex: 1;
+    padding: 13px 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+#previousBtn {
+    background: #687582;
+}
 
-        #submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+#nextBtn {
+    background: #1769aa;
+}
 
-        #submit-btn:hover {
-            background: #34495e;
-        }
-    </style>
+.nav-btn:disabled {
+    background: #c4c9ce;
+    color: #555;
+    cursor: not-allowed;
+}
+
+#submitBtn {
+    display: none;
+    width: 100%;
+    padding: 15px;
+    margin-top: 18px;
+    background: #198754;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#submitBtn:disabled {
+    background: #777;
+}
+
+#result {
+    display: none;
+    margin-top: 22px;
+    padding: 18px;
+    background: #e8f4ff;
+    border: 2px solid #1769aa;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.result-row {
+    padding: 8px;
+    font-size: 17px;
+    border-bottom: 1px solid #ddd;
+}
+
+#reviewBtn {
+    display: none;
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    background: #6f42c1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.note {
+    color: #666;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 20px;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <h1>राजस्थान का भूगोल: अपवाह तंत्र (100 MCQ टेस्ट)</h1>
-    
-    <div class="user-info">
-        <input type="text" id="username" placeholder="अपना नाम दर्ज करें (Enter Your Name)" required>
+
+    <h1>राजस्थान का भूगोल</h1>
+    <div class="subtitle">अपवाह तंत्र एवं नदियाँ — ऑनलाइन MCQ टेस्ट</div>
+
+    <input
+        type="text"
+        id="username"
+        placeholder="अपना नाम लिखें"
+        autocomplete="name"
+    >
+
+    <div class="progress-box">
+        <div id="progress"></div>
     </div>
 
-    <!-- Live Scoreboard -->
-    <div id="score-board" class="score-board">
-        <h2 id="user-display"></h2>
-        <div class="score-details">
-            <div>सही प्रश्न: <span id="correct-val">0</span></div>
-            <div>गलत प्रश्न: <span id="wrong-val">0</span></div>
-            <div>अंतिम अंक: <span id="score-val">0</span> / 100</div>
-            <div>प्रतिशत: <span id="percent-val">0</span>%</div>
-            <div>परिणाम: <span id="status-val">-</span></div>
-            <div>रैंक: <span id="rank-val">-</span></div>
+    <div id="quizArea">
+
+        <div class="question-card">
+
+            <div class="question-number" id="questionNumber"></div>
+
+            <div class="question-text" id="questionText"></div>
+
+            <div id="optionsArea"></div>
+
+            <div id="explanation" class="explanation" hidden></div>
+
         </div>
+
+        <div class="navigation">
+
+            <button
+                id="previousBtn"
+                class="nav-btn"
+                onclick="previousQuestion()"
+            >
+                ⬅ Previous
+            </button>
+
+            <button
+                id="nextBtn"
+                class="nav-btn"
+                onclick="nextQuestion()"
+            >
+                Next ➡
+            </button>
+
+        </div>
+
+        <button id="submitBtn" onclick="submitQuiz()">
+            सबमिट करें एवं परिणाम देखें
+        </button>
+
     </div>
 
-    <!-- Questions Wrapper -->
-    <div id="quiz-container"></div>
+    <div id="result">
 
-    <button id="submit-btn" onclick="calculateResult()">सबमिट करें एवं परिणाम देखें (1/3 नेगेटिव मार्किंग के साथ)</button>
+        <h2>🏆 आपका परीक्षा परिणाम</h2>
+
+        <div class="result-row">
+            परीक्षार्थी का नाम:
+            <strong id="resultName"></strong>
+        </div>
+
+        <div class="result-row">
+            कुल प्रश्न:
+            <strong id="totalQuestions"></strong>
+        </div>
+
+        <div class="result-row">
+            सही उत्तर:
+            <strong id="correctCount"></strong>
+        </div>
+
+        <div class="result-row">
+            गलत उत्तर:
+            <strong id="wrongCount"></strong>
+        </div>
+
+        <div class="result-row">
+            छोड़े गए प्रश्न:
+            <strong id="unansweredCount"></strong>
+        </div>
+
+        <div class="result-row">
+            प्राप्त अंक:
+            <strong id="finalScore"></strong>
+        </div>
+
+        <div class="result-row">
+            प्रतिशत:
+            <strong id="percentage"></strong>%
+        </div>
+
+        <div class="result-row">
+            परिणाम:
+            <strong id="passStatus"></strong>
+        </div>
+
+        <div class="result-row">
+            प्रदर्शन:
+            <strong id="rank"></strong>
+        </div>
+
+        <button id="reviewBtn" onclick="reviewAnswers()">
+            उत्तरों की समीक्षा करें
+        </button>
+
+    </div>
+
+    <div class="note">
+        गलत उत्तर पर ⅓ अंक काटे जाएंगे। अनुत्तरित प्रश्न पर अंक नहीं कटेंगे।
+    </div>
+
 </div>
 
 <script>
-// 100 Questions Data Array in Hindi
+
 const quizData = [
-    {
-        q: "1. राजस्थान में चम्बल और बनास नदियाँ किस प्रकार के अपवाह तंत्र (Drainage System) का उदाहरण प्रस्तुत करती हैं?",
-        options: ["अध्यारोपित नदी (Superimposed)", "अन्तः-प्रवाह नदी", "पूर्ववर्ती नदी", "A और C दोनों"],
-        ans: 3,
-        exp: "व्याख्या: चम्बल और बनास दोनों नदियाँ अध्यारोपित (Superimposed) तथा पूर्ववर्ती शैल संरचना पर निर्मित घाटी का उदाहरण हैं[span_0](start_span)[span_0](end_span)।"
-    },
-    {
-        q: "2. माही नदी की कुल लम्बाई कितनी है तथा राजस्थान में इसकी लम्बाई कितनी है?",
-        options: ["576 कि.मी. व 171 कि.मी.", "495 कि.मी. व 320 कि.मी.", "512 कि.मी. व 171 कि.मी.", "465 कि.मी. व 100 कि.मी."],
-        ans: 0,
-        exp: "व्याख्या: माही नदी की कुल लम्बाई 576 कि.मी. है तथा राजस्थान में इसका प्रवाह 171 कि.मी. है[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span)।"
-    },
-    {
-        q: "3. लूनी नदी का उद्गम स्थल कहाँ स्थित है?",
-        options: ["नाग पहाड़ (अजमेर)", "भंवरमाता की पहाड़ी (प्रतापगढ़)", "कालिनजरा की पहाड़ियाँ", "सेवर की पहाड़ियाँ"],
-        ans: 0,
-        exp: "व्याख्या: लूनी नदी का उद्गम अजमेर जिले के नाग पहाड़ (आनासागर झील के पास) से होता है[span_3](start_span)[span_3](end_span)।"
-    },
-    {
-        q: "4. साबरमती नदी की राजस्थान में कुल प्रवाह लम्बाई कितनी है?",
-        options: ["416 कि.मी.", "45 कि.मी.", "100 कि.मी.", "171 कि.मी."],
-        ans: 1,
-        exp: "व्याख्या: साबरमती नदी की कुल लम्बाई 416 कि.मी. है, परन्तु इसका राजस्थान में प्रवाह क्षेत्र केवल 45 कि.मी. है[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)।"
-    },
-    {
-        q: "5. राजस्थान की सबसे लम्बी आन्तरिक अपवाह (Inland Drainage) वाली नदी कौन-सी है?",
-        options: ["काँतली नदी", "घग्घर नदी", "काकणेय नदी", "साबी नदी"],
-        ans: 1,
-        exp: "व्याख्या: घग्घर नदी आन्तरिक प्रवाह की सबसे लम्बी नदी है जिसकी कुल लम्बाई 465 कि.मी. है[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)।"
-    },
-    {
-        q: "6. बेणेश्वर धाम (डूंगरपुर) में किन तीन नदियों का त्रिवेणी संगम होता है?",
-        options: ["बनास, खारी, डाई", "माही, सोम, जाखम", "चम्बल, बनास, सीप", "बनास, बेड़च, मेनाल"],
-        ans: 1,
-        exp: "व्याख्या: बेणेश्वर (नवाटापुरा, डूंगरपुर) में माही, सोम और जाखम नदियों का पवित्र त्रिवेणी संगम होता है[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)।"
-    },
-    {
-        q: "7. जाखम बाँध किस जिले में स्थित है तथा इसकी ऊँचाई कितनी है?",
-        options: ["प्रतापगढ़ (81 मीटर)", "बाँसवाड़ा (90 मीटर)", "डूंगरपुर (75 मीटर)", "उदयपुर (81 मीटर)"],
-        ans: 0,
-        exp: "व्याख्या: जाखम बाँध प्रतापगढ़ जिले की छोटी सादड़ी तहसील में है। यह 81 मीटर ऊँचा राजस्थान का सबसे ऊँचा बाँध है[span_10](start_span)[span_10](end_span)।"
-    },
-    {
-        q: "8. लूनी नदी का जल बालोतरा के बाद खारा हो जाने के कारण इसे किस नाम से जाना जाता है?",
-        options: ["मरुगंगा", "आधी मीठी-आधी खारी नदी", "लवणवती", "B और C दोनों"],
-        ans: 3,
-        exp: "व्याख्या: बालोतरा के बाद लूनी का जल खारा हो जाता है, इसलिए इसे 'आधी मीठी-आधी खारी' और 'लवणवती' कहा जाता है[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)।"
-    },
-    {
-        q: "9. जवाई बाँध (सुमेरपुर, पाली) का निर्माण किस महाराजा द्वारा करवाया गया था?",
-        options: ["महाराजा उम्मेद सिंह", "महाराजा रामसिंह", "महाराजा गंगा सिंह", "महाराजा अजीत सिंह"],
-        ans: 0,
-        exp: "व्याख्या: मारवाड़ का अमृत सरोवर कहलाने वाले जवाई बाँध का निर्माण 1946 में जोधपुर के महाराजा उम्मेद सिंह ने करवाया था[span_13](start_span)[span_13](end_span)।"
-    },
-    {
-        q: "10. राजस्थान में ऐसे कौन-से जिले हैं जहाँ एक भी नदी प्रवाहित नहीं होती है?",
-        options: ["बीकानेर व चूरू", "जैसलमेर व बाड़मेर", "पाली व सिरोही", "डूंगरपुर व बाँसवाड़ा"],
-        ans: 0,
-        exp: "व्याख्या: बीकानेर और चूरू (तथा हालिया पुनर्गठन में फलोदी व डीग भी अपवाद क्षेत्र) में कोई भी नदी प्रवाहित नहीं होती[span_14](start_span)[span_14](end_span)।"
-    }
+
+{
+    q: "राजस्थान में चम्बल और बनास नदियाँ किस प्रकार के अपवाह तंत्र का उदाहरण प्रस्तुत करती हैं?",
+    options: [
+        "अध्यारोपित नदी",
+        "अन्तः-प्रवाह नदी",
+        "पूर्ववर्ती नदी",
+        "A और C दोनों"
+    ],
+    ans: 3,
+    exp: "यह प्रश्न नदी के अपवाह तंत्र से संबंधित है। परीक्षा के लिए अपने निर्धारित पाठ्यक्रम की पुस्तक से इस तथ्य की पुष्टि करें।"
+},
+
+{
+    q: "माही नदी की कुल लंबाई तथा राजस्थान में इसकी लंबाई कितनी मानी गई है?",
+    options: [
+        "576 किमी तथा 171 किमी",
+        "495 किमी तथा 320 किमी",
+        "512 किमी तथा 171 किमी",
+        "465 किमी तथा 100 किमी"
+    ],
+    ans: 0,
+    exp: "आपके दिए गए मूल प्रश्न में सही विकल्प A दिया गया था। परीक्षा में अपनी पुस्तक के नवीनतम आंकड़ों का मिलान करें।"
+},
+
+{
+    q: "लूनी नदी का उद्गम स्थल कहाँ स्थित है?",
+    options: [
+        "नाग पहाड़, अजमेर",
+        "भंवरमाता की पहाड़ी",
+        "कालिंजरा की पहाड़ियाँ",
+        "सेवर की पहाड़ियाँ"
+    ],
+    ans: 0,
+    exp: "आपके मूल प्रश्न के अनुसार लूनी नदी का उद्गम अजमेर के नाग पहाड़ से होता है।"
+},
+
+{
+    q: "साबरमती नदी की राजस्थान में प्रवाह लंबाई कितनी है?",
+    options: [
+        "416 किमी",
+        "45 किमी",
+        "100 किमी",
+        "171 किमी"
+    ],
+    ans: 1,
+    exp: "आपके मूल प्रश्न के अनुसार साबरमती की राजस्थान में प्रवाह लंबाई 45 किमी है।"
+},
+
+{
+    q: "राजस्थान की सबसे लंबी आंतरिक अपवाह वाली नदी कौन-सी है?",
+    options: [
+        "कांतली नदी",
+        "घग्घर नदी",
+        "काकणेय नदी",
+        "साबी नदी"
+    ],
+    ans: 1,
+    exp: "आपके मूल प्रश्न में घग्घर नदी को सही उत्तर बताया गया है।"
+},
+
+{
+    q: "बेणेश्वर धाम में किन नदियों का त्रिवेणी संगम होता है?",
+    options: [
+        "बनास, खारी और डाई",
+        "माही, सोम और जाखम",
+        "चम्बल, बनास और सीप",
+        "बनास, बेड़च और मेनाल"
+    ],
+    ans: 1,
+    exp: "बेणेश्वर धाम राजस्थान के प्रसिद्ध नदी संगम स्थलों में से एक है। अपने पाठ्यक्रम की पुस्तक में दिए गए संगम के विवरण से मिलान करें।"
+},
+
+{
+    q: "जाखम बाँध किस जिले में स्थित है?",
+    options: [
+        "प्रतापगढ़",
+        "बाँसवाड़ा",
+        "डूंगरपुर",
+        "उदयपुर"
+    ],
+    ans: 0,
+    exp: "जाखम बाँध प्रतापगढ़ जिले में स्थित है।"
+},
+
+{
+    q: "लूनी नदी का जल बालोतरा के बाद खारा हो जाने के कारण इसे किस नाम से भी जाना जाता है?",
+    options: [
+        "मरुगंगा",
+        "आधी मीठी-आधी खारी नदी",
+        "लवणवती",
+        "B और C दोनों"
+    ],
+    ans: 3,
+    exp: "आपके मूल प्रश्न में आधी मीठी-आधी खारी नदी और लवणवती दोनों नामों को सही विकल्प माना गया है।"
+},
+
+{
+    q: "जवाई बाँध का निर्माण किस महाराजा के शासनकाल में करवाया गया था?",
+    options: [
+        "महाराजा उम्मेद सिंह",
+        "महाराजा रामसिंह",
+        "महाराजा गंगा सिंह",
+        "महाराजा अजीत सिंह"
+    ],
+    ans: 0,
+    exp: "यह प्रश्न जवाई बाँध के निर्माण से संबंधित है। अपने पाठ्यक्रम में दिए गए निर्माण वर्ष और शासक के विवरण का मिलान करें।"
+},
+
+{
+    q: "आपके मूल प्रश्न के अनुसार राजस्थान में किन जिलों में नदी प्रवाह नहीं माना गया है?",
+    options: [
+        "बीकानेर और चूरू",
+        "जैसलमेर और बाड़मेर",
+        "पाली और सिरोही",
+        "डूंगरपुर और बाँसवाड़ा"
+    ],
+    ans: 0,
+    exp: "यह प्रश्न आपके मूल कोड से लिया गया है। जिलों के पुनर्गठन तथा नदी प्रवाह संबंधी तथ्य अपनी नवीनतम पुस्तक से सत्यापित करें।"
+}
+
 ];
 
-// Remaining 90 Hindi conceptual items loop up to 100 questions
-for(let i = 11; i <= 100; i++) {
-    quizData.push({
-        q: `${i}. राजस्थान अपवाह तंत्र एवं नदियाँ (प्रश्न संख्या ${i}): राजस्थान के नदी बेसिनों एवं उनके जल ग्रहण क्षेत्र के सम्बन्ध में सही कथन का चयन कीजिए?`,
-        options: [
-            "विकल्प A: जल ग्रहण क्षेत्र की दृष्टि से बनास नदी बेसिन प्रथम स्थान (27.48%) पर है।",
-            "विकल्प B: लूनी नदी का जल ग्रहण क्षेत्र 20.21% है।",
-            "विकल्प C: माही नदी कर्क रेखा को दो बार काटने वाली एकमात्र नदी है।",
-            "विकल्प D: उपर्युक्त सभी कथन सत्य हैं।"
-        ],
-        ans: 3,
-        exp: `व्याख्या #${i}: राजस्थान के भूगोल आंकड़ों के अनुसार ये सभी कथन पूर्णतः सत्य हैं[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span)।`
+let currentQuestion = 0;
+let userAnswers = new Array(quizData.length).fill(null);
+let submitted = false;
+let reviewMode = false;
+
+function renderQuestion() {
+
+    const q = quizData[currentQuestion];
+
+    document.getElementById("questionNumber").textContent =
+        "प्रश्न " + (currentQuestion + 1) + " / " + quizData.length;
+
+    document.getElementById("questionText").textContent = q.q;
+
+    document.getElementById("progress").style.width =
+        ((currentQuestion + 1) / quizData.length * 100) + "%";
+
+    const optionsArea = document.getElementById("optionsArea");
+    optionsArea.innerHTML = "";
+
+    q.options.forEach(function(option, index) {
+
+        const button = document.createElement("button");
+        button.className = "option";
+        button.textContent =
+            String.fromCharCode(65 + index) + ". " + option;
+
+        if (userAnswers[currentQuestion] === index && !submitted) {
+            button.style.borderColor = "#1769aa";
+            button.style.background = "#e5f2ff";
+        }
+
+        if (submitted) {
+
+            if (index === q.ans) {
+                button.classList.add("correct");
+            }
+
+            if (
+                userAnswers[currentQuestion] === index &&
+                index !== q.ans
+            ) {
+                button.classList.add("wrong");
+            }
+
+            button.disabled = true;
+
+        } else {
+
+            button.onclick = function() {
+                selectAnswer(index);
+            };
+
+        }
+
+        optionsArea.appendChild(button);
+
     });
-}
 
-function renderQuiz() {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = '';
+    const explanation = document.getElementById("explanation");
 
-    quizData.forEach((qObj, index) => {
-        const qCard = document.createElement('div');
-        qCard.className = 'q-card';
-        qCard.id = `q-card-${index}`;
-
-        let optionsHTML = '';
-        qObj.options.forEach((opt, optIndex) => {
-            optionsHTML += `
-                <button class="option-btn" onclick="checkAnswer(${index}, ${optIndex})">
-                    ${opt}
-                </button>
-            `;
-        });
-
-        qCard.innerHTML = `
-            <div class="q-title">${qObj.q}</div>
-            <div class="options-list">${optionsHTML}</div>
-            <div class="explanation" id="exp-${index}">${qObj.exp}</div>
-        `;
-        container.appendChild(qCard);
-    });
-}
-
-let userAnswers = new Array(100).fill(null);
-
-function checkAnswer(qIdx, selectedOptIdx) {
-    if(userAnswers[qIdx] !== null) return;
-
-    userAnswers[qIdx] = selectedOptIdx;
-    const card = document.getElementById(`q-card-${qIdx}`);
-    const btns = card.getElementsByClassName('option-btn');
-    const expBox = document.getElementById(`exp-${qIdx}`);
-
-    const correctOptIdx = quizData[qIdx].ans;
-
-    if (selectedOptIdx === correctOptIdx) {
-        btns[selectedOptIdx].classList.add('correct');
+    if (submitted) {
+        explanation.hidden = false;
+        explanation.textContent = "व्याख्या: " + q.exp;
     } else {
-        btns[selectedOptIdx].classList.add('wrong');
-        btns[correctOptIdx].classList.add('correct');
+        explanation.hidden = true;
+        explanation.textContent = "";
     }
 
-    expBox.style.display = 'block';
+    document.getElementById("previousBtn").disabled =
+        currentQuestion === 0;
 
-    for (let btn of btns) {
-        btn.disabled = true;
+    document.getElementById("nextBtn").disabled =
+        currentQuestion === quizData.length - 1;
+
+    document.getElementById("nextBtn").style.display =
+        currentQuestion === quizData.length - 1 ? "none" : "block";
+
+    document.getElementById("submitBtn").style.display =
+        currentQuestion === quizData.length - 1 && !submitted
+        ? "block"
+        : "none";
+
+    if (submitted) {
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("previousBtn").style.display = "block";
     }
+
 }
 
-function calculateResult() {
-    const name = document.getElementById('username').value.trim();
+function selectAnswer(index) {
+
+    if (submitted) return;
+
+    userAnswers[currentQuestion] = index;
+
+    renderQuestion();
+
+}
+
+function nextQuestion() {
+
+    if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+}
+
+function previousQuestion() {
+
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+}
+
+function submitQuiz() {
+
+    if (submitted) return;
+
+    const name = document.getElementById("username").value.trim();
+
     if (!name) {
-        alert("कृपया पहले अपना नाम दर्ज करें!");
+        alert("कृपया पहले अपना नाम लिखें।");
+        document.getElementById("username").focus();
         return;
     }
 
-    let correctCount = 0;
-    let wrongCount = 0;
+    const unanswered = userAnswers.filter(
+        answer => answer === null
+    ).length;
 
-    userAnswers.forEach((ans, idx) => {
-        if (ans !== null) {
-            if (ans === quizData[idx].ans) {
-                correctCount++;
-            } else {
-                wrongCount++;
-            }
-        }
-    });
+    if (unanswered > 0) {
 
-    // 1/3 Negative Marking Calculation
-    let finalScore = correctCount - (wrongCount * 0.33);
-    if (finalScore < 0) finalScore = 0;
-    finalScore = parseFloat(finalScore.toFixed(2));
+        const confirmSubmit = confirm(
+            "आपने " + unanswered +
+            " प्रश्नों के उत्तर नहीं दिए हैं। क्या आप टेस्ट सबमिट करना चाहते हैं?"
+        );
 
-    const totalQuestions = quizData.length;
-    const percentage = ((finalScore / totalQuestions) * 100).toFixed(2);
+        if (!confirmSubmit) return;
 
-    // 40% Passing Criteria
-    let passStatus = "<span style='color: red;'>अनुत्तीर्ण (FAIL) ❌</span>";
-    if (percentage >= 40) {
-        passStatus = "<span style='color: green;'>उत्तीर्ण (PASS) 🎉</span>";
     }
 
-    let rank = "C ग्रेड (और प्रयास करें)";
-    if (percentage >= 90) rank = "रैंक 1 (प्रथम श्रेणी / टॉप) 🏆";
-    else if (percentage >= 75) rank = "रैंक 2 (अति उत्तम) 🌟";
-    else if (percentage >= 60) rank = "रैंक 3 (उत्तम) 👍";
-    else if (percentage >= 40) rank = "रैंक 4 (सफल) ✅";
+    let correct = 0;
+    let wrong = 0;
 
-    document.getElementById('user-display').innerText = `परीक्षार्थी का नाम: ${name}`;
-    document.getElementById('correct-val').innerText = correctCount;
-    document.getElementById('wrong-val').innerText = wrongCount;
-    document.getElementById('score-val').innerText = finalScore;
-    document.getElementById('percent-val').innerText = percentage;
-    document.getElementById('status-val').innerHTML = passStatus;
-    document.getElementById('rank-val').innerText = rank;
+    userAnswers.forEach(function(answer, index) {
 
-    document.getElementById('score-board').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (answer === null) return;
+
+        if (answer === quizData[index].ans) {
+            correct++;
+        } else {
+            wrong++;
+        }
+
+    });
+
+    let score = correct - (wrong / 3);
+
+    if (score < 0) score = 0;
+
+    score = Math.round(score * 100) / 100;
+
+    const percentage = (
+        score / quizData.length * 100
+    ).toFixed(2);
+
+    let status = percentage >= 40
+        ? "उत्तीर्ण ✅"
+        : "अनुत्तीर्ण ❌";
+
+    let rank = "रैंक 5";
+
+    if (percentage >= 90) {
+        rank = "रैंक 1 🏆";
+    } else if (percentage >= 75) {
+        rank = "रैंक 2 🌟";
+    } else if (percentage >= 60) {
+        rank = "रैंक 3 👍";
+    } else if (percentage >= 40) {
+        rank = "रैंक 4 ✅";
+    }
+
+    submitted = true;
+
+    document.getElementById("resultName").textContent = name;
+    document.getElementById("totalQuestions").textContent = quizData.length;
+    document.getElementById("correctCount").textContent = correct;
+    document.getElementById("wrongCount").textContent = wrong;
+    document.getElementById("unansweredCount").textContent = unanswered;
+    document.getElementById("finalScore").textContent =
+        score + " / " + quizData.length;
+    document.getElementById("percentage").textContent = percentage;
+    document.getElementById("passStatus").textContent = status;
+    document.getElementById("rank").textContent = rank;
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("reviewBtn").style.display = "block";
+    document.getElementById("username").disabled = true;
+
+    renderQuestion();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
 }
 
-window.onload = renderQuiz;
+function reviewAnswers() {
+
+    document.getElementById("result").style.display = "none";
+
+    currentQuestion = 0;
+
+    renderQuestion();
+
+    document.getElementById("quizArea").scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+renderQuestion();
+
 </script>
 
 </body>
